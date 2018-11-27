@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>放大镜案例</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .box {
+            width: 350px;
+            height: 350px;
+            margin: 100px;
+            border: 1px solid #cccccc;
+            position: relative;
+
+        }
+        .big {
+            width: 400px;
+            height: 400px;
+            position: absolute;
+            top: 0;
+            left: 460px;
+            border: 1px solid #cccccc;
+            overflow: hidden;
+            display: none;
+        }
+        .mask {
+            width: 175px;
+            height: 175px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: move;
+            display: none;
+            background: rgba(255,255,0,0.4);
+        }
+        .small {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+<div class="box" id="box">
+    <div class="small" id="small">
+        <img src="images/a.jpg" alt="" width="350"/>
+        <div class="mask" id="mask"></div>
+    </div>
+</div>
+<div class="big" id="big">
+    <div class="bigImg" id="bigImg">
+        <img src="images/big1.jpg" alt="" width="800"/>
+    </div>
+
+</div>
+<script>
+    var box=document.getElementById("box");
+    var small=box.children[0];
+    var mask=document.getElementById("mask");
+    var big=document.getElementById("big");
+    var bigImg=document.getElementById("bigImg");
+
+    box.onmouseover=function () {
+        mask.style.display="block";
+        big.style.display="block";
+    };
+    box.onmouseout=function () {
+        mask.style.display="none";
+        big.style.display="none";
+    };
+    small.onmousemove=function (e) {
+        var x=e.clientX-mask.offsetWidth/2;
+        var y=e.clientY-mask.offsetHeight/2;
+        x=x-100;
+        y=y-100;
+        x=x<0?0:x;
+        y=y<0?0:y;
+        x=x>small.offsetWidth-mask.offsetWidth?small.offsetWidth-mask.offsetWidth:x;
+        y=y>small.offsetWidth-mask.offsetHeight?small.offsetHeight-mask.offsetWidth:y;
+        mask.style.left=x+"px";
+        mask.style.top=y+"px";
+        // var maxX=bigImg.offsetWidth-big.offsetWidth;
+        // var bigMoveX=x*maxX/
+        bigImg.style.marginLeft=-(x*(bigImg.offsetWidth-big.offsetWidth)/(small.offsetWidth-mask.offsetWidth))+"px";
+        bigImg.style.marginRight=-(y*(bigImg.offsetHeight-big.offsetHeight)/(small.offsetHeight-mask.offsetHeight))+"px";
+    }
+
+
+</script>
+</body>
+</html>
